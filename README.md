@@ -2,5 +2,5 @@
 
 ## Getting Started
 
-```yarn install```
-```polymer serve```
+```yarn install
+polymer serve```
