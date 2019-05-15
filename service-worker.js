@@ -23,28 +23,44 @@ workbox.core.skipWaiting();
  */
 self.__precacheManifest = [
   {
-    "url": "data/spacex.json",
-    "revision": "2150fc7de9da187b7b557ec2e32a8ed6"
+    "url": "db.json",
+    "revision": "727d7e144a24cd9e929c37eca3171a41"
   },
   {
     "url": "index.html",
-    "revision": "34b9ab57e321c46baac02197eb7b160c"
+    "revision": "ade014f7bfa83699036d997ccd35045f"
   },
   {
     "url": "js/app.js",
-    "revision": "4ef256dc97341127130eb4925db259be"
+    "revision": "7dc73f57dd9f74f0c402ead23f019ae0"
   },
   {
-    "url": "js/components/card/card.css",
-    "revision": "b03c1da829f0d2a547c180867fb67c47"
+    "url": "js/connection.js",
+    "revision": "e849f4287f0d3580078c005b77607cfb"
   },
   {
-    "url": "js/components/card/card.js",
-    "revision": "142183276b66a55a2956f1315dc1cc3c"
+    "url": "js/core.js",
+    "revision": "b698b347d26944ca91fcf37939191883"
+  },
+  {
+    "url": "js/database.js",
+    "revision": "c4652cb3ca6e671cea99370954b11a14"
+  },
+  {
+    "url": "js/init.js",
+    "revision": "bb6cb7c07b60ec1ffe1e09f3c22305d5"
+  },
+  {
+    "url": "js/local.js",
+    "revision": "1ba4ef0934257123fa4f02803d7b2a2c"
+  },
+  {
+    "url": "manifest.json",
+    "revision": "fdfb54328933526087b69d5c321b3eb1"
   },
   {
     "url": "styles/main.css",
-    "revision": "06d0f65582580073657705ffb6c13811"
+    "revision": "e36072164eb8298eda47fd3642b6dae2"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});

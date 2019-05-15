@@ -1,73 +1,49 @@
-import AppCard from '/js/components/card/card.js';
 import { openDB } from 'idb';
 import checkConnectivity from '/js/connection.js';
+import init from '/js/init.js'
+import {deleteTask,synchronize} from '/js/core.js'
 
 (async function(document) {
   const app = document.querySelector('#app');
-  const skeleton = app.querySelector('.skeleton');
-  const listPage = app.querySelector('[page=list]');
 
+  init();
   checkConnectivity(3, 1000);
   
   document.addEventListener('connection-changed', ({ detail }) => {
-    console.log(detail.online);
+    let status = localStorage.getItem("connection")
+      if(detail.online){
+        synchronize();
+      }
+    localStorage.setItem('connection', detail.online);
   });
-  skeleton.removeAttribute('active');
-  listPage.setAttribute('active', '');
 
   try {
-    const data = await fetch('/data/spacex.json');
-    const json = await data.json();
+    const data = await fetch('http://localhost:5000/tasks/');
+    const tasks = await data.json();
 
-    const database = await openDB('app-store', 1, {
-      upgrade(db) {
-        db.createObjectStore('articles');
-      }
+    tasks.forEach(task => {
+      injectTask(task)
     });
 
     if (navigator.onLine) {
-      await database.put('articles', json, 'articles');
+      //synchronize idb with json-server
     }
-
-    const articles = await database.get('articles', 'articles');
-    
-    const cards = json.map(item => {
-      const cardElement = new AppCard();
-  
-      cardElement.initCard(item.image,
-        item.placeholder,
-        item.content.title,
-        item.content.description);
-  
-      listPage.appendChild(cardElement);
-  
-      return cardElement;
-    });
-
-    document.addEventListener('add-favorit', async e => {
-      const updatedArticle = articles.map(article => {
-        article.content.title === e.detail.article ? article.favoris = true : article.favoris = false;
-        return article;
-      });
-
-      await database.put('articles', updatedArticle, 'articles');
-    });
-
-    const callback = function(entries) {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const card = entry.target;
-          card.swapImage();
-        }
-      });
-    };
-  
-    const io = new IntersectionObserver(callback);
-  
-    cards.forEach(card => {
-      io.observe(card);
-    });
-  } catch (error) {
+  } 
+  catch (error) {
     console.error(error, ':(');
   }
 })(document);
+
+function injectTask(task){
+  var li = document.createElement("li");
+  var t = document.createTextNode(task.task.description);
+  li.appendChild(t);
+  document.getElementById("taskList").appendChild(li);
+
+  var span = document.createElement("SPAN");
+  span.className = "close";
+  span.appendChild(document.createTextNode("\u00D7"));
+  li.appendChild(span);
+
+  span.addEventListener('click', () => deleteTask(span.parentElement,task.id))
+}
