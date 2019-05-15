@@ -7,3 +7,6 @@ To Do List who save task in local when connection is lost and synchronise with s
 ```yarn install```
 
 ```polymer serve```
+
+```yarn json-server --watch db.json```
+
